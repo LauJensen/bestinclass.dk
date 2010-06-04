@@ -1,0 +1,102 @@
+<body>
+    <br clear="all" />
+
+    <div id="nav">
+      <ul>
+	<li>
+	  <a class="pbtn" href="#1">
+	    Webdesign/- Udvikling
+	  </a>
+	</li>
+	<li>
+	  <a class="pbtn" href="#2">
+	    Software Udvikling
+	  </a>
+	</li>
+	<li>
+	  <a class="pbtn" href="#3">
+	    Konsulent Ydelser
+	  </a>
+	</li>
+      </ul>
+    </div>
+
+    <div id="panes">
+      <div>
+	<img src="/images/webdev.jpg" style="float: right;"/>
+	<h1>Webdesign & Udvikling</h1>
+	<p>Et design er smukt når det formidler de tanker, ideer og indtryk som I ønsker at forbinde med Jeres virksomhed.</p>
+	<p>Det gode design er ikke skåret fra en skabelon, men tager sit <strong>udgangspunkt i Jeres forventninger</strong> og fuldendes først når kundernes
+	  tilbagemeldinger varsler at målet er nået.
+	</p>
+	<p>Best In Class sætter en ære i at levere hjemmesider der fra største til mindste detalje er designet og indrettet for at nå netop Jeres
+	  målgruppe og kundekreds, hvorfor vi altid afleverer til <strong>fuld tilfredshed</strong>.
+	</p>
+	<p>Vi håndterer alt fra design og udformelse til lancering. Vi kan levere skræddersyede CMS løsninger der passer netop til Jeres personale samt
+	  løse komplicerede backend opgaver - Intet er for stort eller for småt.
+	</p>
+	<p class="kontaktlink">
+	  <a href="mailto:kontakt@bestinclass.dk">Kontakt os</a> gerne i dag for en snak om Jeres online profil
+	</p>
+      </div>
+      <div>
+	<div id="dongreference">
+	  <img src="/images/quote-dong.png"/>
+	</div>
+	<span style="float: right; text-align: center; width: 260px; margin-right: 30px;">
+	  <img src="/images/dongref.jpg"/>
+	  <br/>
+	  <a href="#dongreference" id="dongzoom">(læs Dong Energy's reference)</a>
+	</span>
+
+	<div id="clojurevideo">
+	  <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="551" height="310" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://vimeo.com/moogaloop.swf?clip_id=8485280&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1" /><embed type="application/x-shockwave-flash" width="551" height="310" src="http://vimeo.com/moogaloop.swf?clip_id=8485280&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+	</div>
+
+	<h1>Software Udvikling</h1>
+	<p>Best In Class er Danmarks <strong>førende udviklingshus</strong> med speciale i <a href="#clojurevideo" class="clojurezoom">Clojure!</a></p>
+	<p>
+	  <a href="#clojurevideo" class="clojurezoom">Clojure</a> er det funktionelle programmeringssprog, der er <strong>10x</strong> hurtigere at udvikle i end C
+	og giver langt mere <strong>robuste programmer</strong> med færre bugs end traditionel udvikling.
+	</p>
+	<p>
+	  Best In Class er pioneer det på danske marked og gør op med udvikling der er været forbundet med fejl, overskridelse af budgetter og forsinket levering.
+	</p>
+	<p>
+	  De tekniske detaljer og fordele ved at benytte <a href="#clojurevideo" class="clojurezoom">Clojure</a> kan bl.a. erfares ved at læse på Best In Class Bloggen, der har været én af de 100.000 mest besøgte sider i USA på trods
+	  af sin snævre målgruppe. Clojure er allerede i produktion adskillige steder i Danmark, her kan bl.a. nævnes Sundheds sektoren, Finans sektoren og Energi sektoren - hver gang med top karakter!
+	</p>
+	<p class="kontaktlink">
+	  <a href="mailto:kontakt@bestinclass.dk">Kontakt os</a> gerne allerede i dag og hør hvad vi kan gøre for Jer!
+	</p>
+      </div>
+
+      <div>
+	<img style="float:right" src="/images/handshake.jpg"/>
+
+	<h1>Konsulent Ydelser</h1>
+	<p>
+	  Vi tilbyder adskillige regulære konsulentydelser der har til formål at styrke jeres virksomhed.
+	</p>
+	<ul>
+	  <li><strong>Undervisning</strong> - Software udvikling, funktionel programmering, arkitektur mm.</li>
+	  <li><strong>Projektledelse</strong> - Projektledelse baseret på Scrum/LEAN principper</li>
+	  <li><strong>Workshops</strong> - Både opkvalificering og behovsafdækning</li>
+	  <li><strong>Freelancer</strong> - Udviklingsbistand med variabel tilknytning</li>
+	  <li><strong>Processer</strong> - Foranalyse og udvikling af processer/quality assurance materiale</li>
+	  <li><strong>Krav specificering</strong> - Få en uvildig expert med på holdet når der kravspecificeres!</li>
+	</ul>
+	<p class="kontaktlink">
+	  <a href="mailto:kontakt@bestinclass.dk">Kontakt os</a> gerne i dag for en snak om Jeres projekt!
+	</p>
+      </div>
+    </div>
+
+    <script>
+      $(function() {
+      $("#nav ul").tabs("#panes > div", {effect: 'fade', fadeOutSpeed: 400});
+      $("#dongzoom").fancyZoom({width: 507, height: 625});
+      $("a.clojurezoom").fancyZoom({width: 552, height: 311});
+      });
+    </script>
+</body>

@@ -1,0 +1,71 @@
+body {
+    color: white;
+}
+
+h1 {
+    color: white;
+    text-shadow: 2px 2px 2px #333;
+}
+
+.panel {
+    width: 900px;
+    margin: auto auto;
+}
+
+.panel .editor {
+    display: none;
+}
+
+.moderation pre {
+    white-space: pre-wrap;
+}
+
+.comment-wrap {
+    width: 550px;
+    margin-bottom: 20px;
+    margin: 20px auto;
+}
+
+div.comment {
+    top: 20px;
+    display: block;
+}
+
+.comment .author {
+    float: left;
+    width: 100%;
+}
+
+.comment .date {
+    float: right;
+    font-size: 90%;
+}
+
+.comment .message {
+    width: 100%;
+    float: left;
+    padding: 15px;
+    border-bottom: 1px dotted white;
+}
+
+.comment a {
+    float: right;
+    margin-top: 5px;
+}
+
+.url {
+    float: left;
+}
+
+div#post > p {
+    color: black;
+}
+
+td.ref {
+    overflow-x: hidden;
+}
+
+td.dt {
+    width: 200px;
+    font-size: 8pt;
+}

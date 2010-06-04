@@ -1,0 +1,43 @@
+<div id="formwrap">
+  <form action="#">
+    <input type="hidden" id="url"/>
+    <input type="hidden" id="cid"/>
+    <p>Your name:</p>
+    <input type="text" id="name"/>
+    <p>Your email: <i> (not published)</i></p>
+    <input type="text" id="email"/>
+    <p id="question">What is the meaning of life?</p>
+    <input type="text" id="captcha"/>
+    <p>Your comment</p>
+    <textarea id="comment"></textarea>
+    <br/>
+    <input type="submit" id="btnsubmit"/>
+  </form>
+</div>
+<script type="text/javascript">
+     $(document).ready(function() {
+	     $("#btnsubmit").click(function() {
+		     var dataString = $(":input").each(function() {
+			     if (!this.name) this.name = this.id;
+			 }).serialize();
+
+		     $.ajax({
+			     type: "POST",
+			     url: "/cmt/",
+			     data: dataString,
+			     success: function(msg) {
+				 if (-1 != msg.indexOf("NOT OK")) {
+				     alert("Bad Captcha answer - Please try again!");
+				 } else {
+				     $('.contentWrap').html("<div id='thx'><h1>Thank you for your comment!</h1><br/><p>I personally review all comments to ensure a constructive and friendly debate. Therefore you will experience a slight delay between posting and seeing your comment on the site.</p><br/><p>To close this window hit escape or click on the X.</p><br/><br/><p>Best regards,<br/> Lau B. Jensen</p></div>");
+				 }
+			     },
+				 error: function() {
+				 alert("Unexpected error while submitting, please try again");
+			     }
+			 });
+		     return false;
+		 });
+	 });
+</script>
+

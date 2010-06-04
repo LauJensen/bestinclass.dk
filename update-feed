@@ -1,0 +1,12 @@
+#!/bin/sh
+
+THE_CLASSPATH=
+for i in `ls ./lib/*.jar`
+do
+  THE_CLASSPATH=${THE_CLASSPATH}:${i}
+done
+
+java -cp "resources/:src/:${THE_CLASSPATH}" \
+    -server \
+    clojure.main -e \
+    "(do (use 'bestinclass.feeds) (generate-feed \"site/index.clj/\"))"

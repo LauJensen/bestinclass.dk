@@ -1,0 +1,241 @@
+/* blog index */
+
+ul.content {
+    margin-left:           0px;
+    list-style-type:       none;
+}
+
+li {
+    margin-left:      -35px;
+    list-style-type:  none;
+    left:             -15px;
+}
+
+div.page_navigation {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.page_navigation a, .alt_page_navigation a{
+	padding:3px 5px;
+	margin:2px;
+	color:white;
+	text-decoration:none;
+	font-family: Tahoma;
+	font-size: 12px;
+	background-color:#DB5C04;
+}
+
+a.title-link {
+    font-size:        16pt;
+    font-weight:      bold;
+    color:            black;
+    text-decoration:  none;
+}
+
+div.breaker {
+    width: 700px;
+    height: 2px;
+    border-bottom:    1px dotted #333;
+}
+
+
+img.avatar {
+    float:            left;
+    padding:          10px 25px 0px 10px;
+}
+
+div.excerpt {
+    width:            650px;
+    height:           132px;
+    margin:           10px 10px 0px 10px;
+}
+
+div.link-float-right {
+    position: relative;
+    top: -30px;
+    width:            650px;
+    text-align:       right;
+}
+
+a.perma-link, a.perma-link:visited {
+    width:            650px;
+    text-align:       right;
+    color:            blue;
+}
+
+/* blog */
+
+div#post {
+    width:            700px;
+    margin:           20px auto;
+    padding:          10px 20px 30px 20px;
+    color:            #111;
+    background-color: white;
+}
+
+div#post h1,h2,h3,h4 {
+    font-weight:      bold;
+    color:            black;
+    text-shadow:      1px 1px 1px #333;
+}
+
+pre {
+    white-space:      pre-wrap;
+}
+
+h1#title {
+    width:            100%;
+    text-align:       right;
+    padding-bottom:   5px;
+    border-bottom:    1px dotted #333;
+    color:            black;
+    text-shadow:      1px 1px 1px #ddd;
+    font-size:        20pt;
+}
+
+div#pubdate {
+    width:            100%;
+    text-align:       right;
+    font-weight:      bold;
+    color:            #aaa;
+    top:              -14px;
+    position:         relative;
+}
+
+img#thumb {
+    float:            left;
+    position:         relative;
+    margin-left:      15px;
+}
+
+div#post img {
+    margin:           auto auto;
+    text-align:       center;
+    display:          block;
+}
+
+div#toggle {
+    width:            740px;
+    margin:           -5px auto;
+    text-align:       right;
+}
+
+a#showdiscussion {
+    color:            white;
+}
+
+/* tooltip styling. by default the element to be styled is .tooltip  */
+.tooltip {
+	display:none;
+	background:transparent url(/images/black_arrow.png);
+	font-size:12px;
+	height:70px;
+	width:160px;
+	padding:25px;
+	color:#fff;
+	font-weight: bold;
+	text-align: center;
+}
+
+/* style the trigger elements */
+img.tipped {
+	border:0;
+	cursor:pointer;
+	margin:0 8px;
+}
+
+
+div#debate {
+    background:       white;
+    width:            740px;
+    height:           0px;
+    margin:           auto auto;
+    margin-top:       20px;
+    margin-bottom:    20px;
+    overflow:         scroll;
+    overflow-x:       hidden;
+}
+
+div.comment {
+    width:            640px;
+    padding:          10px 20px 10px 20px;
+    margin:           5px auto;
+    color:            black;
+    background:       #efefef;
+}
+
+div.comment-lau {
+    width:            670px;
+    padding:          10px 10px 10px 10px;
+    margin:           auto auto;
+    color:            white;
+    background:       #001519;
+}
+
+.comment-lau > .author {
+    color:            white;
+    font-weight:      bold;
+}
+
+div.author {
+    color:            black;
+    text-shadow:      1px 1px 1px white;
+    font-size:        110%;
+    float:            left;
+    font-weight:      bold;
+    text-transform:   capitalize;
+}
+
+div.date {
+    float:            right;
+    font-size:        80%;
+    color:            white;
+    text-shadow:      1px 1px 1px #333;
+}
+
+div.message {
+    width:            550px;
+    margin:           5px 15px;
+    padding-top:      10px;
+}
+
+div#postfooter {
+    position:         relative;
+    width:            740px;
+    height:           20px;
+    background:       transparent url('/images/blogfooter.png') no-repeat top left;
+    margin:           auto auto;
+    top:              -20px;
+}
+
+div#postheader {
+    position:         relative;
+    width:            740px;
+    height:           20px;
+    background:       transparent url('/images/blogheader.png') no-repeat top left;
+    margin:           auto auto;
+    top:              20px;
+}
+
+div#debatefooter {
+    display:          none;
+    position:         relative;
+    width:            740px;
+    height:           20px;
+    background:       transparent url('/images/debatefooter.png') no-repeat top left;
+    margin:           auto auto;
+    top:              -20px;
+}
+
+div#debateheader {
+    display:          none;
+    position:         relative;
+    width:            740px;
+    height:           40px;
+    background:       transparent url('/images/debateheader.png') no-repeat top left;
+    margin:           auto auto;
+    top:              20px;
+}
+

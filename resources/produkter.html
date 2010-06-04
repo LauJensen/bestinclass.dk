@@ -1,0 +1,61 @@
+<body>
+    <br clear="all" />
+
+    <div id="nav">
+      <ul>
+	<li>
+	  <a class="pbtn" href="#1">
+	    Klippekort
+	  </a>
+	</li>
+	<li>
+	  <a class="pbtn" href="#2">
+	    Smart Move
+	  </a>
+	</li>
+      </ul>
+    </div>
+
+    <div id="panes">
+      <div>
+	<img src="/images/webdev.jpg" style="float: right;"/>
+	<h1>Klippekort</h1>
+	<p>
+	  Vi tilbyder klippekort med <strong>favorable</strong> timepriser der kan benyttes til alle
+	  de ydelser som Best In Class tilbyder.
+	</p>
+	<p>
+	  Timerne på et klippekort betales alle på købstidspunktet
+	  men kan bruges efter behov. Overskydende timer er gyldige i op til <strong>12 måneder</strong> fra
+	  købstidspunktet.
+	</p>
+	<p>
+	  Download vores prisliste: <a href="/files/Klippekort.pdf">her</a>
+	</p>
+	<p class="kontaktlink">
+	  <a href="mailto:kontakt@bestinclass.dk">Kontakt os</a> gerne for at høre nærmere
+	</p>
+      </div>
+      <div>
+	<img src="/images/coming-soon.png" style="float: right"/>
+	<h1>Smart Move</h1>
+	<p>
+	  Smart Move nærmer sig udgivelses datoen!
+	</p>
+	<p>
+	  Smart Move er et solidt produkt, der lader dig flytte en server uden at svigte eventuelle systemer
+	  der peger direkte på serverens IP. Smart Move fungerer som en letvægts proxy der sender alle
+	  forespørgsler videre til den nye server og samtidigt giver adminsitratoren besked på, at services
+	  nu bliver brugt sådan at klientens opsætning kan opdateres til at pege på den nye addresse.
+	<p class="kontaktlink">
+	  <a href="mailto:kontakt@bestinclass.dk">Kontakt os</a> gerne hvis I er interesserede i Smart Move
+	</p>
+      </div>
+    </div>
+
+    <script>
+      $(function() {
+      $("#nav ul").tabs("#panes > div", {effect: 'fade', fadeOutSpeed: 400});
+      });
+    </script>
+</body>

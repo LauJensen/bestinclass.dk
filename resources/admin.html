@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Best in Class: ADMIN</title>
+    <script class="header" src="/scripts/jquery.tools.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"></link>
+    <link rel="stylesheet" type="text/css" href="/css/admin.css"></link>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+
+  <body>
+    <div id="banner"></div>
+    <div class="separator"></div>
+
+    <div id="nav">
+      <ul>
+	<li>
+	  <a class="pbtn" href="#1">
+	    Moderation
+	  </a>
+	</li>
+	<li>
+	  <a class="pbtn" href="#2">
+	    Publishing
+	  </a>
+	</li>
+	<li>
+	  <a class="pbtn" href="#3">
+	    Stats
+	  </a>
+	</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <div class="moderation">
+	<div class="comment-wrap">
+	  <div class="comment">
+	    <div class="author"></div>
+	    <div class="date"></div>
+	    <div class="message"><pre></pre></div>
+	    <a id="approve">
+	      <img src="/images/approve.png"/>
+	    </a>
+	    <a id="dispose">
+	      <img src="/images/dispose.png"/>
+	    </a>
+	    <div class="url"/>
+	  </div>
+	</div>
+      </div>
+      <div class="publish" style="display: none;">
+	<form action="/publish" method="POST">
+	  <p>Title</p>
+	  <input id="title" name="title" style="width: 250px;"/>
+	  <p>Avatar</p>
+	  <select id="avatar" name="avatar" onchange="javascript:updateavatar();">
+	    <option>-- Pick one --</option>
+	    <option class="pic"></option>
+	  </select>
+	  <br/>
+	  <img id="thumb" src="" style="width: 128px; height: 128px;"/>
+	  <br/>
+	  <input type="submit" style="float: right; margin-bottom: 20px;" value="Publish"/>
+	  <br/>
+	  <div id="article" style="background: white;"/>
+	</form>
+      </div>
+      <div class="stats" style="display: none;">
+	<h1>Visitor stats</h1>
+	<span id="today"/>
+	<br/>
+	<span id="week"/>
+	<br/>
+	<span id="month"/>
+	<br/>
+	<h1>Referers</h1>
+	<div id="referer">
+	  <table style="width: 90%; border: 0;">
+	    <tr class="refrow">
+	      <td class="ref"></td>
+	      <td class="dt"></td>
+	    </tr>
+	  </table>
+	</div>
+      </div>
+    </div>
+
+      <script type="text/javascript">
+      $(function() {
+          $("#nav ul").tabs(".panel > div", {effect: 'fade', fadeOutSpeed: 400});
+      });
+
+      function updateavatar() {
+          var newsrc = '/wp-content/uploads/avatars/' + $('#avatar').val();
+          $("#thumb").attr('src', newsrc);
+      }
+    </script>
+
+  </body>
+</html>
+

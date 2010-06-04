@@ -1,0 +1,63 @@
+== BEST IN CLASS.dk - Clojure baked ==
+
+This is the Clojure code which drives www.bestinclass.dk - Please use hesitantly as it released Open Source
+to provide others with means of interfacing with Wordpress and driving a backend. Ideally I would find the
+time to divide it into generic modules, but as it is it will require work to fit it to another site.
+
+Installation:
+* Clone repo
+* lein deps
+* lein repl
+* user> (use 'bestinclass.admin)
+
+For interactive development, uncomment the line which says (def server (doto ...)) and instead
+comment the last line of admin.clj. This will allow runtime redefinition of the routes.
+
+Features:
+* Administration panel (/admin)
+** Publishing of new blogposts with automatic update of site and atom.feed
+** Moderation of comments
+** Generate statistics from an nginx standard access.log
+
+* Post Editor (/editor)
+** Allows you to edit a single blogpost draft, which can later be published from the admin panel
+
+* Comment backend (/cmt)
+** Renders a comment-form w. captcha
+** Receive comments posted and validates
+** Send an email to me (change!) if a comment is validated
+
+* Wordpress import
+** Can import a wordpress backup file
+** Apply a customized pre-capture-hook to modify the captured data
+** Can batch convert posts and comments to another format
+
+* Enlive in the wild
+** Enlive is used to generate webpages, feeds, backend panels, many good examples of usage
+
+Security:
+* The html files are completely safe :)
+* The backend is only accesible from 127.0.0.1, meaning you have to reverse proxy.
+  In my setup, I've used nginx to reverse proxy into the admin interface and I let nginx
+  handle security, ie. only my IP gets through. If this doesn't work for you, add a middleware
+  to moustache which checks either IP or cookie.
+
+Files:
+src/bestinclass.clj           - I used to from my deploy.sh script, to generate the first version of the site.
+                                Only required once as this converts all wordpress posts to html.
+src/bestinclass/admin.clj     - Handles the entire backend: moderation, comment handlers, publishing of posts etc
+src/bestinclass/comments.clj  - Parses incoming comments posted to the site and controls captchas
+src/bestinclass/email.clj     - Simple email/smtp helper fn
+src/bestinclass/feeds.clj     - Eventually will generate several feeds, but so far it just updates the atom.xml feed
+src/bestinclass/templates.clj - This file contains all enlive-templates and snippets
+src/bestinclass/webview.clj   - This file should be disregarded entirely. It was frequently used during the making of the site
+                                to rapidly prototype templates and functions.
+
+
+
+
+TODO:
+Fix race condition when approving comments
+Memoize/Serialize statistics to improve load time
+Fetch statistics only when actually opening the tab
+

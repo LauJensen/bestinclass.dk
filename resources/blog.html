@@ -1,0 +1,36 @@
+<body>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('div#page-container').pajinate({
+                 items_per_page : 3,
+                 nav_label_first : '<<',
+		 nav_label_last : '>>',
+	         nav_label_prev : '<',
+		 nav_label_next : '>'});
+      });
+    </script>
+
+    <div id="page-container" class="container">
+      <div id="postheader"></div>
+      <div id="post">
+	<ul class="content">
+	  <li>
+	    <a class="title-link"></a>
+	    <div class="breaker"/>
+	    <a class="thumb-link"><img class="avatar"/></a>
+	    <div class="excerpt"/>
+	    <div class="link-float-right">
+	      <a class="perma-link">Read this post</a>
+	    </div>
+	  </li>
+	</ul>
+      </div>
+      <div id="postfooter"></div>
+
+      <div class="page_navigation"/>
+    </div>
+
+</body>
+
+
+

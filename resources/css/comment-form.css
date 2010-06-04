@@ -1,0 +1,67 @@
+.apple_overlay {
+    display: none;
+    padding: 35px;
+    width: 340px;
+    background: transparent url(/images/comment-bg.png) no-repeat top left;
+    height: 385px;
+ }
+
+
+.apple_overlay .close {
+    background-image: url(/images/closebox.png);
+    position:absolute; right:5px; top:5px;
+    cursor:pointer;
+    height:30px;
+    width:30px;
+}
+
+div#thx {
+    width: 350px;
+    text-align: left;
+}
+
+.contentWrap {
+    width: 340px;
+    height: 385px;
+    margin: 10px auto;
+    text-align: left;
+}
+
+#formwrap {
+    font-family: verdana;
+    font-size:   9pt;
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+#formwrap p {
+    margin: 0;
+    padding: 3px;
+}
+
+#formwrap form {
+    width: 300px;
+}
+
+#formwrap input[type=text] {
+    background: transparent url(/images/sunken-shadow.png) no-repeat top left;
+    padding: 2px 2px;
+    height: 20px;
+    width: 250px;
+    margin: 0;
+}
+
+#formwrap textarea {
+    background: transparent url(/images/sunken-shadow.png) no-repeat top left;
+    padding: 2px 2px;
+    width: 300px;
+    height: 150px;
+    margin: 0;
+    padding: 0;
+}
+
+#formwrap input[type=submit] {
+    float: right;
+    margin-top: 10px;
+}
+
