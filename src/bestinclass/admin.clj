@@ -111,7 +111,7 @@
 			  (.format (java.text.SimpleDateFormat. "MM") (java.util.Date.))
 			  filename)]
     (make-parents (File. (str "site" url)))
-    (->> (page (str "Best In Class: " content)
+    (->> (page (str "Best In Class: " title)
 	       ["/scripts/jquery.tools.min.js" "/scripts/menu.js" "/scripts/post.js"]
 	       ["/css/main.css" "/css/blog.css" "/css/comment-form.css"]
 	       (post {:title    title
