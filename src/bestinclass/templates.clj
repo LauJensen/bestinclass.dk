@@ -81,6 +81,8 @@
   [:div.date]         (content date)
   [:div.message :pre] (content message))
 
+; Admin Interface
+
 (deftemplate admin-page "admin.html" [article avatars comments today week month referers]
   [:div#article] (content
 		  (html-snippet
@@ -93,7 +95,7 @@
 				  :comments []
 				  :link "/"})))))
   [:span#today]  (content "Today: "      today)
-  [:span#today]  (content "This week: "  week)
+  [:span#week]   (content "This week: "  week)
   [:span#month]  (content "This month: " month)
   [:tr.refrow]   (clone-for [[lnk dt] referers]
 			    [:td.ref] (content lnk)
