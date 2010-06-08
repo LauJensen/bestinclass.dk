@@ -98,7 +98,8 @@
   [:span#week]   (content "This week: "  week)
   [:span#month]  (content "This month: " month)
   [:tr.refrow]   (clone-for [[lnk dt] referers]
-			    [:td.ref] (content lnk)
+			    [:td.ref :a] (do-> (content lnk)
+					       (set-attr :href lnk))
 			    [:td.dt]  (content (.toString dt)))
   [:option.pic]  (clone-for [avatar avatars]
 			    this-node (content avatar))
