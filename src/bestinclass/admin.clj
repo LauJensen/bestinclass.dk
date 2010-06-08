@@ -133,23 +133,78 @@
 	 (spit "site/atom.xml"))
     (redirect "/blog.html")))
 
-(defn read-access-log []
-  (let [dtformat (SimpleDateFormat. "[dd/MMM/yyyy:HH:mm:ss")
-	parse-ex #"[^\s\"]\S*|\"[^\"]*\""
-        entries  (->> (read-lines "access.log")
-		      (map #(re-seq parse-ex #^String %))
-		      (filter #(let [request (nth % 5)]
-				 (or (.contains #^String request "GET / ")
-				     (.contains #^String request "html"))))
-		      (map #(let [[ip _ _ date _ request code size referer agent] %]
-			      {:ip      ip
-			       :date    (.parse dtformat date)
-			       :request request
-			       :code    code
-			       :size    size
-			       :referer (.replaceAll referer "\"" "")
-			       :agent   agent})))]
-    entries))
+(defn generate-barchart-url [stats]
+  (let [base-url "http://chart.apis.google.com/chart?"
+	vs       (vals stats)
+	ks       (map #(apply str (drop 5 %)) (keys stats))]
+    (format "%scht=lc&chs=800x250&chbh=a,15,15&chf=c,s,222222|bg,s,121212&chxs=0,FFFFFF,10,0,t&chg=20,50,1,5&chm=N,FFFFFF,0,-1,11&chxt=x,y&chd=t:%s&chxl=0:|%s|1:|%s&chxr=0,%s&chds=0,%s"
+	    base-url
+	    (apply str (interpose "," vs))
+	    (apply str (interpose "|" ks))
+	    (apply str (interpose "|" (map int  [(apply min vs) (/ (reduce + vs) (count vs)) (apply max vs)])))
+	    (str (apply max vs))
+	    (str (apply max vs)))))
+
+(defn read-history []
+  (if (.isFile (java.io.File. "stats"))
+    (-> "stats" slurp read-string)
+    {:referers [] :hits []}))
+
+(defn parse-log [filename]
+  (let [dtformat     (SimpleDateFormat. "[dd/MMM/yyyy:HH:mm:ss")
+	serialdate   (SimpleDateFormat. "yyyy-MM-dd")
+	parse-ex     #"[^\s\"]\S*|\"[^\"]*\""]
+    (->> (read-lines filename)
+	 (map #(re-seq parse-ex #^String %))
+	 (filter #(let [request (nth % 5)]
+		    (or (.contains #^String request "GET / ")
+			(.contains #^String request "html"))))
+	 (map #(let [[ip _ _ date _ request code size referer agent] %]
+		 {:ip      ip
+		  :date    (.format serialdate (.parse dtformat date))
+		  :request request
+		  :code    code
+		  :size    size
+		  :referer (.replaceAll referer "\"" "")
+		  :agent   agent})))))
+
+(defn merge-referers [log-entries referers]
+  (let [from-access-log (->> (reverse log-entries)
+			     (map (juxt :referer :date))
+			     (remove #(let [r (first %)]
+					(or (= "-" r)
+					    (.contains r "bestinclass")
+					    (.contains r "www.google."))))
+			     (take 100))]
+    (if (= 100 (count from-access-log))
+      from-access-log
+      (concat referers from-access-log))))
+
+(defn compile-stats
+  "Moves the access.log into an archive file, named access.log.n where n is an
+   incremental counter. The log is then parsed and merged with the historical data
+   in the file 'stats' and the result is returned"
+  []
+  (if (.isFile (File. "access.log"))
+    (let [{:keys [referers hits]} (read-history)
+	  archive-name (->> (iterate inc 1)
+			    (map #(File. (str "access.log." %)))
+			    (remove #(.isFile %))
+			    first
+			    .getName
+			    (format "logs/%s"))
+	  result       (do (sh "mv" "access.log" archive-name)
+			   (sh "killall" "-USR1" "nginx")) ; Reopen logs, otherwise access.log wouldn't be used
+	  log-entries  (parse-log archive-name)
+	  hit-stats    (into {} (for [day (sort (group-by :date log-entries))]
+				  {(key day) (count (val day))}))
+	  ref-stats    (merge-referers log-entries referers)
+	  stats        {:referers ref-stats
+			:hits     (merge-with + hit-stats hits)}]
+      (spit "stats" (with-out-str (prn stats)))
+      stats)
+    (read-string (slurp "stats"))))
+
 					;:> WEB UI
 
 (defn render-admin-interface [_]
@@ -159,24 +214,16 @@
 		   (map #(assoc (read-string %2) :id %1)
 			(iterate inc 0)
 			(.split queue "\n")) [])
-	entries  (read-access-log)
-	today    (-> (filter #(older-than? 1  (:date %)) entries) count str)
-	week     (-> (filter #(older-than? 7  (:date %)) entries) count str)
-	month    (-> (filter #(older-than? 30 (:date %)) entries) count str)
-	referers (->> (reverse entries)
-		      (map (juxt :referer :date))
-		      (remove #(let [r (first %)]
-				 (or (= "-" r)
-				     (.contains r "bestinclass")
-				     (.contains r "www.google."))))
-		      (take 100))]
+	entries  (compile-stats)
+	today    "1"
+	week     "2"
+	month    "3"
+	referers (:referers entries)]
     (content-type
      (response (admin-page (slurp "draft")
 			   avatars
 			   comments
-			   today
-			   week
-			   month
+			   (generate-barchart-url (:hits entries))
 			   referers))
      "text/html; charset=UTF-8")))
 

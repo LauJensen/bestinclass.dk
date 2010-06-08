@@ -83,7 +83,7 @@
 
 ; Admin Interface
 
-(deftemplate admin-page "admin.html" [article avatars comments today week month referers]
+(deftemplate admin-page "admin.html" [article avatars comments stats referers]
   [:div#article] (content
 		  (html-snippet
 		   (apply str
@@ -94,9 +94,7 @@
 				  :date "10-10-10 10:10:10"
 				  :comments []
 				  :link "/"})))))
-  [:span#today]  (content "Today: "      today)
-  [:span#week]   (content "This week: "  week)
-  [:span#month]  (content "This month: " month)
+  [:img#chart]   (set-attr :src stats)
   [:tr.refrow]   (clone-for [[lnk dt] referers]
 			    [:td.ref :a] (do-> (content lnk)
 					       (set-attr :href lnk))
