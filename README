@@ -58,6 +58,5 @@ src/bestinclass/webview.clj   - This file should be disregarded entirely. It was
 
 TODO:
 Fix race condition when approving comments
-Memoize/Serialize statistics to improve load time
-Fetch statistics only when actually opening the tab
+
 
