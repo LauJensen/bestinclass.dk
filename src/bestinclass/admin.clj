@@ -215,9 +215,6 @@
 			(iterate inc 0)
 			(.split queue "\n")) [])
 	entries  (compile-stats)
-	today    "1"
-	week     "2"
-	month    "3"
 	referers (:referers entries)]
     (content-type
      (response (admin-page (slurp "draft")
