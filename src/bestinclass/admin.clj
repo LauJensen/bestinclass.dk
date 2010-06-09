@@ -12,7 +12,7 @@
 
  					;:> GLOBALS
 
-;(def server (doto (Thread. #(run-jetty #'wroutes {:port 8080 :host "127.0.0.1"})) .start))
+(def server (doto (Thread. #(run-jetty #'wroutes {:port 8080 :host "127.0.0.1"})) .start))
 
 (defn static [tplate] (-> tplate response constantly))
 
@@ -208,19 +208,18 @@
 					;:> WEB UI
 
 (defn render-admin-interface [_]
-  (let [queue    (slurp "comment-queue")
+  (let [{:keys [referers hits]} (compile-stats)
+	queue    (slurp "comment-queue")
 	avatars  (get-avatars)
 	comments (if-not (empty? queue)
 		   (map #(assoc (read-string %2) :id %1)
 			(iterate inc 0)
-			(.split queue "\n")) [])
-	entries  (compile-stats)
-	referers (:referers entries)]
+			(.split queue "\n")) [])]
     (content-type
      (response (admin-page (slurp "draft")
 			   avatars
 			   comments
-			   (generate-barchart-url (:hits entries))
+			   (generate-barchart-url (sort-by first hits))
 			   referers))
      "text/html; charset=UTF-8")))
 
@@ -253,4 +252,4 @@
 (def backup-agent (agent 0))
 (send-off backup-agent backup-comments)
 
-(run-jetty wroutes {:port 8080 :host "127.0.0.1"})
+;(run-jetty wroutes {:port 8080 :host "127.0.0.1"})
