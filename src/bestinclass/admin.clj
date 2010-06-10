@@ -137,13 +137,15 @@
   (let [base-url "http://chart.apis.google.com/chart?"
 	vs       (vals stats)
 	ks       (map #(apply str (drop 5 %)) (keys stats))]
-    (format "%scht=lc&chs=800x250&chbh=a,15,15&chf=c,s,222222|bg,s,121212&chxs=0,FFFFFF,10,0,t&chg=20,50,1,5&chm=N,FFFFFF,0,-1,11&chxt=x,y&chd=t:%s&chxl=0:|%s|1:|%s&chxr=0,%s&chds=0,%s"
+    (if-not (seq vs)
+      ""
+      (format "%scht=lc&chs=800x250&chbh=a,15,15&chf=c,s,222222|bg,s,121212&chxs=0,FFFFFF,10,0,t&chg=20,50,1,5&chm=N,FFFFFF,0,-1,11&chxt=x,y&chd=t:%s&chxl=0:|%s|1:|%s&chxr=0,%s&chds=0,%s"
 	    base-url
 	    (apply str (interpose "," vs))
 	    (apply str (interpose "|" ks))
 	    (apply str (interpose "|" (map int  [(apply min vs) (/ (reduce + vs) (count vs)) (apply max vs)])))
 	    (str (apply max vs))
-	    (str (apply max vs)))))
+	    (str (apply max vs))))))
 
 (defn read-history []
   (if (.isFile (java.io.File. "stats"))
