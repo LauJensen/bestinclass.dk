@@ -195,7 +195,7 @@
   (if (.isFile (File. "access.log"))
     (let [{:keys [referers hits]} (read-history)
 	  archive-name (->> (iterate inc 1)
-			    (map #(File. (str "access.log." %)))
+			    (map #(File. (str "logs/access.log." %)))
 			    (remove #(.isFile %))
 			    first
 			    .getName
