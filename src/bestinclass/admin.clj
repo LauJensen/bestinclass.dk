@@ -154,7 +154,6 @@
 
 (defn parse-log [filename]
   (let [dtformat     (SimpleDateFormat. "[dd/MMM/yyyy:HH:mm:ss")
-	serialdate   (SimpleDateFormat. "yyyy-MM-dd")
 	parse-ex     #"[^\s\"]\S*|\"[^\"]*\""]
     (->> (read-lines filename)
 	 (map #(re-seq parse-ex #^String %))
@@ -163,7 +162,7 @@
 			(.contains #^String request "html"))))
 	 (map #(let [[ip _ _ date _ request code size referer agent] %]
 		 {:ip      ip
-		  :date    (.format serialdate (.parse dtformat date))
+		  :date    (.parse dtformat date)
 		  :request request
 		  :code    code
 		  :size    size
@@ -171,8 +170,9 @@
 		  :agent   agent})))))
 
 (defn merge-referers [log-entries referers]
-  (let [from-access-log (->> (reverse log-entries)
-			     (map (juxt :referer :date))
+  (let [dtformat        (SimpleDateFormat. "MM-dd HH:mm:ss")
+	from-access-log (->> (map (juxt :referer #(.format dtformat (:date %))) log-entries)
+			     (sort-by :date)
 			     (remove #(let [r (first %)]
 					(or (= "-" r)
 					    (.contains r "bestinclass")
@@ -181,6 +181,11 @@
     (if (= 100 (count from-access-log))
       from-access-log
       (concat referers from-access-log))))
+
+(defn serialdate [d]
+  (let [serialdate   (SimpleDateFormat. "yyyy-MM-dd")
+	old-date     (:date d)]
+    (assoc d :date (.format serialdate old-date))))
 
 (defn compile-stats
   "Moves the access.log into an archive file, named access.log.n where n is an
@@ -198,7 +203,7 @@
 	  result       (do (sh "mv" "access.log" archive-name)
 			   (sh "killall" "-USR1" "nginx")) ; Reopen logs, otherwise access.log wouldn't be used
 	  log-entries  (parse-log archive-name)
-	  hit-stats    (into {} (for [day (sort (group-by :date log-entries))]
+	  hit-stats    (into {} (for [day (sort-by :date > (group-by :date (map serialdate log-entries)))]
 				  {(key day) (count (val day))}))
 	  ref-stats    (merge-referers log-entries referers)
 	  stats        {:referers ref-stats
@@ -222,7 +227,7 @@
 			   avatars
 			   comments
 			   (generate-barchart-url (sort-by first hits))
-			   referers))
+			   (sort-by last #(compare %2 %1) referers)))
      "text/html; charset=UTF-8")))
 
 (defn render-editor [_]
