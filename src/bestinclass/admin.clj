@@ -203,7 +203,7 @@
 	  result       (do (sh "mv" "access.log" archive-name)
 			   (sh "killall" "-USR1" "nginx")) ; Reopen logs, otherwise access.log wouldn't be used
 	  log-entries  (parse-log archive-name)
-	  hit-stats    (into {} (for [day (sort-by :date > (group-by :date (map serialdate log-entries)))]
+	  hit-stats    (into {} (for [day (sort-by :date (group-by :date (map serialdate log-entries)))]
 				  {(key day) (count (val day))}))
 	  ref-stats    (merge-referers log-entries referers)
 	  stats        {:referers ref-stats
