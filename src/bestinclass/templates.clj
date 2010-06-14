@@ -81,7 +81,14 @@
   [:div.date]         (content date)
   [:div.message :pre] (content message))
 
-; Admin Interface
+; Admin Interface + helper
+
+(defn shorten [n strng]
+  (if (< n (count strng))
+    (let [midway (/ (count strng) 2)]
+      (recur n (str (subs strng 0 (dec midway)) "." (subs strng (inc midway)))))
+    (do (println "returning: " strng)
+        strng)))
 
 (deftemplate admin-page "admin.html" [article avatars comments stats referers]
   [:div#article] (content
@@ -96,7 +103,7 @@
 				  :link "/"})))))
   [:img#chart]   (set-attr :src stats)
   [:tr.refrow]   (clone-for [[lnk dt] referers]
-			    [:td.ref :a] (do-> (content lnk)
+			    [:td.ref :a] (do-> (content (shorten 80 lnk))
 					       (set-attr :href lnk))
 			    [:td.dt]  (content (.toString dt)))
   [:option.pic]  (clone-for [avatar avatars]
