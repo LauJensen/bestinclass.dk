@@ -5,7 +5,7 @@ ul.content {
     list-style-type:       none;
 }
 
-li {
+ul.content li {
     margin-left:      -35px;
     list-style-type:  none;
     left:             -15px;
@@ -18,13 +18,13 @@ div.page_navigation {
 }
 
 .page_navigation a, .alt_page_navigation a{
-	padding:3px 5px;
-	margin:2px;
-	color:white;
-	text-decoration:none;
-	font-family: Tahoma;
-	font-size: 12px;
-	background-color:#DB5C04;
+    padding:3px 5px;
+    margin:2px;
+    color:white;
+    text-decoration:none;
+    font-family: Tahoma;
+    font-size: 12px;
+    background-color:#DB5C04;
 }
 
 a.title-link {

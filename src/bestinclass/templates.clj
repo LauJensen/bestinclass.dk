@@ -87,8 +87,7 @@
   (if (< n (count strng))
     (let [midway (/ (count strng) 2)]
       (recur n (str (subs strng 0 (dec midway)) "." (subs strng (inc midway)))))
-    (do (println "returning: " strng)
-        strng)))
+    strng))
 
 (deftemplate admin-page "admin.html" [article avatars comments stats referers]
   [:div#article] (content

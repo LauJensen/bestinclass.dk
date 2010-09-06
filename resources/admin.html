@@ -5,6 +5,7 @@
     <script class="header" src="/scripts/jquery.tools.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/main.css"></link>
     <link rel="stylesheet" type="text/css" href="/css/admin.css"></link>
+    <link rel="stylesheet" type="text/css" href="/css/blog.css"></link>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   </head>
@@ -52,19 +53,29 @@
       </div>
       <div class="publish" style="display: none;">
 	<form action="/publish" method="POST">
-	  <p>Title</p>
-	  <input id="title" name="title" style="width: 250px;"/>
-	  <p>Avatar</p>
-	  <select id="avatar" name="avatar" onchange="javascript:updateavatar();">
-	    <option>-- Pick one --</option>
-	    <option class="pic"></option>
-	  </select>
-	  <br/>
-	  <img id="thumb" src="" style="width: 128px; height: 128px;"/>
-	  <br/>
-	  <input type="submit" style="float: right; margin-bottom: 20px;" value="Publish"/>
-	  <br/>
-	  <div id="article" style="background: white;"/>
+          <div id="postheader"/>
+          <div id="post"> <!-- Not really a post, but this looks better :) -->
+            <table width="" cellspacing="" cellpadding="" border="0">
+              <tr>
+                <td>
+	          <p><b>Title</b></p>
+	          <input id="title" name="title" style="width: 250px;"/>
+                </td>
+                <td style="padding-left: 20px;">
+	          <p><b>Avatar</b></p>
+	          <select id="avatar" name="avatar" onchange="javascript:updateavatar();">
+	            <option>-- Pick one --</option>
+	            <option class="pic"></option>
+	          </select>
+                  </td>
+              </tr>
+            </table>
+	    <br/>
+	    <input type="submit" style="float: right; margin-bottom: 20px;" value="Publish"/>
+	    <br/>
+          </div>
+          <div id="postfooter"/>
+	  <div id="article" style=""/>
 	</form>
       </div>
       <div class="stats" style="display: none;">
@@ -87,6 +98,10 @@
       <script type="text/javascript">
       $(function() {
           $("#nav ul").tabs(".panel > div", {effect: 'fade', fadeOutSpeed: 400});
+      });
+
+      $('input#title').keyup(function() {
+         $('h1#title').text($(this).val());
       });
 
       function updateavatar() {

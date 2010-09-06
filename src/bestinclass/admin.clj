@@ -16,7 +16,6 @@
 
 (defn static [tplate] (-> tplate response constantly))
 
-
 					;:> FS IO
 
 (defn parse-args [a]
@@ -250,6 +249,7 @@
 (def wroutes
      (app
       (wrap-file "resources")
+      (wrap-reload '[bestinclass.templates])
       ["admin"]            render-admin-interface
       ["editor"]           render-editor
       ["dispose" id]       (kill-comment    id)

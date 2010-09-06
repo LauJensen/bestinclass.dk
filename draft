@@ -1,10 +1,164 @@
 <p>
-	This is the teaser</p>
-<!--more--><h1>
-	Post starts here</h1>
+	Im very eager to return to blogging about Clojure, but right now I have a loose productivity end which I need to take care of. In this post you will get a few producitivity tips as well as my configs for Emacs, Awesome and Wanderlust.</p>
+<p>
+<!--more--></p>
+<h1>
+	Preface</h1>
+<p style="text-align: center;">
+	&quot;<em>I know why you&#39;re here. I know what you&#39;ve been doing... why you hardly sleep, why you live alone, and why night after night, you sit by your computer. You&#39;re looking for, it I know because I was once looking for the same thing. And when I found it, I knew what I&#39;d been searching for. I was looking for an answer. It&#39;s the question that drives us. It&#39;s the question that brought you here. You know the question, just as I did.</em>&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --- <strong>The (sorta) Matrix</strong></p>
+<p>
+	Last time I blogged, I had just returned from the first <strong>Conj Labs in Brussels</strong> and coincidentally I&#39;ve been tied up with Clojure development, so that now just as we open registrations for <a href="http://conj-labs.eu" target="_blank">Conj Labs Frankfurt</a> am I able to blog again. My last blogpost was meant as an inspiration to adapt your work environment to make you the most productive - I purposely didn&#39;t move into the &#39;how&#39; as I just wanted to get people interested. It worked it seems so now I&#39;m back to wrap up the series with some productivity tips as well as configs.</p>
+<p>
+	&nbsp;</p>
+<h1>
+	Top 10 Productivity Boosters</h1>
+<p>
+	<sup>(by request)</sup></p>
+<p>
+	&nbsp;</p>
+<p>
+	I&#39;ve tried to think about some of the deliberate choices I&#39;ve made to function better in my job, but Im sure your mileage will vary.</p>
+<h3>
+	1. Get around 7 hours of sleep every single night</h3>
+<p>
+	If your sleep isn&#39;t good you will suffer mentally and energywise. Catching up on a bad nights sleep is trickier than it sounds, so the key is to stick to a routine.</p>
+<h3>
+	2. Avoid caffeine entirely (coffee &amp; tea)</h3>
+<p>
+	Ive been a long time coffee drinker (<strong>read</strong>: bottomless coffee pit), but after I returned from Conj Labs Brussels I considered the effect of the caffeine in my system and how I got up in the morning and felt like I was in a daze until I got my first cup. Taking that thought further I reasoned that after having slept through the first 2 hours of the night, the next 5 would be spent by my body craving the next cup, which was how I would wake up. Since I only have 2 settings (off or on) I quit coffee over night, cold turkey. It took 3 - 4 days before I mentally was on top again, but it took <strong>14 days</strong> for the headaches to go away (they were <u><strong>bad</strong></u>). Now that its over and done with Im not touching that stuff again, Im mentally alert and sharp from the moment I roll out of bed till I get back in - No additives needed!</p>
+<h3>
+	3. Maintain your tools</h3>
+<p>
+	What good is a lumberjack who doesn&#39;t sharpen his axe? Only a little more than a developer who doesn&#39;t exercise his body. In our younger years most of us felt immortal, nothing we ever did gave us any lasting marks despite our parents warnings (at least I hope you were as fortunate as me), but as we grow older it becomes clear that the years take their toll. Lack of exercise is a killer - You&#39;ll feel it in your bones, when typing, in your energy levels, in your ability to focus - Everything works better if you maintain your primary tool: Your body. Personally I try to work in some exercise either into my lunch-break or in the evening - It takes a little time, but its worth it.</p>
+<h3>
+	4. Dont be vain</h3>
+<p>
+	In all honesty, one of the reasons I wanted to try out Linux way back when, was because of some of the Compiz/Beryl visual effects for the desktop - this is vanity. One of my friends recently saw my desktop (in all its Awesome Emacsy splendor) and his comment was &quot;upgrade that ****&quot; because he didn&#39;t feel that it was as pretty as his new Windows 7 installation, which it isn&#39;t. But in the time he has booted to his Desktop I&#39;ve already answered 3 emails, said good morning on #clojure and written my first few lines of code - Vanity slows you down, whether its your choice of VM, OS (read: OSX or Windows) or anything else - If you want to be productive, aim for productivity not prettiness.</p>
+<h3>
+	5. Avoid Social Networks</h3>
+<p>
+	One of the strongest weapons for building quality systems is the ability to concentrate over prolonged periods of time. If you get regular Facebook updates, Twitter updates, or any other kind of updates which steals your attention, even if its just for a few seconds, I&#39;m willing to bet that you&#39;re working at 50% of your full capacity. Why? Because even though it takes you 5 seconds to read a twitter update, I&#39;m guessing it takes you 5 minutes to regain full mental focus. If your updates are coming in at a rate around 1 update every 5 minutes you&#39;re never running at full speed. If you are connected to something like twitter, <a href="http://twitter.com/laujensen" target="_blank">which I am</a>, I recommend that you check it once in a while - I do it in the morning or evening, but typically not during the day - and not every day. There are 2 exceptions: If my phone rings or if I get an email I usually reply ASAP whenever possible, since customers shouldn&#39;t have to wait.</p>
+<h3>
+	6. Work off a TODO list</h3>
+<p>
+	I showed this in my last screencast as well, how I organize my TODO bullets into categories A, B or C. A means &#39;will loose significant value if not done today&#39;, B means &#39;important, but will not loose significant value if not done today&#39;, C means &#39;optional&#39;. I cannot stress how important this bullet is - On its own it might overshadow the other 9 in the short-term. When working as a Project Manager I have seen several developers who select some minor task to work on, and everytime they reach a milestone they look around, not knowing what to do, then start reading online newspapers or chit-chatting. Sure there&#39;s a time and a place for that, but if you&#39;re doing it consistently everytime you&#39;ve put down 50 lines of code, you have a problem. Working off a TODO list means, that when you&#39;re in need of a high level of productivity you cross one item off the list and move on to the next! For many developers, huge wins in terms of productivity are available when the downtime between 2 tasks is cut out.</p>
+<h3>
+	7. Use a tiling WM</h3>
+<p>
+	If you&#39;re not on a tiling WM, you&#39;re constantly switching between the mouse and keyboard. Everytime you want to click an item with the mouse you have to find it visually, take aim, click, maybe miss, click again. In most cases you hit the first time, but you&#39;ve wasted time context switching and taking aim. When I was younger I had shoulder/neck pains which I think came from using the mouse too much - These days I never have pains.</p>
+<h3>
+	8. Use Emacs for Everything</h3>
+<p>
+	This was a central theme in my <a href="http://bestinclass.dk/index.clj/2010/07/trail-blazing-innovators.html" target="_blank">last blogpost</a>: Integrate as much as you can into Emacs: Code editing, HTML editing, Emailing, reading Twitter streams, file management, Git integration, Day planning and whatever else you can think of. Have a uniform interface and heavy integration between your tools speeds you up enormously.</p>
+<h3>
+	9. ...Use Conkeror for the rest</h3>
+<p>
+	Whether you like it or not, you probably spend quite a bit of time in a webbrowser - Either finding javadocs, searching for libraries or something similar. When I switched from Chrome to <a href="http://www.conkeror.org" target="_blank">Conkeror</a> my ability to browse became almost equal to my ability to read and think. As soon as I could think of which link to click, the page was already loading - Thats the power of a keyboard-based browser, why settle for less?&nbsp; (<em>preemptive strike</em>: Some would argue that the lack of Firebug integration etc, would be an argument for not using Conkeror, but notice I said use it for &#39;browsing&#39;, I use many different browsers for debugging/testing)</p>
+<h3>
+	10. Always keep looking</h3>
+<p>
+	I didn&#39;t start out with neither Arch, Awesome or Emacs, but a continual focus on optimizing my tools eventually got me here - Who knows where I&#39;ll be in 10 years. Right now Im trying to learn the NEO keyboard layout, because Im told it greatly reduces the distance your fingers have to travel when typing, thus speeding you up and minimizing the risk of getting RSI.</p>
+<p>
+	&nbsp;</p>
+<h2>
+	DISCLAIMER</h2>
+<p>
+	You might be thinking after reading the above, that Im a sadistic terminator who is determined to run my colleaguees/employees into the ground, sweating, sobbing, broken. Nothing could be further from the truth. The truth is, <strong>relax time is important and fun time is important</strong>. But I find that I can enjoy all of these the most if I&#39;ve put in a good amount of work first. So if I am going to work for something like 3 - 4 hours in a row, doesn&#39;t it make sense to make those hours as productive as possible without wrecking yourself trying to cut down on breaks, sleep, family time and what not? I think a lot of the common problems that developers struggle with after years in the field can be avoided by adapting the techniques above, but as always I welcome input.</p>
+<p>
+	&nbsp;</p>
+<h1>
+	Watch out for the pitfall</h1>
+<p>
+	So what to do, when you&#39;ve applied all of the above tips and your back is still against the wall timewise. Those who have the resources in terms of colleagues or coworkers tend to try and delegate. Delegation can be like taking a loan to buy something which you really cant afford: It comes back and bites you and ends up costing more than you wanted to pay. Why?</p>
+<p>
+	I think primarily because people don&#39;t delegate intelligently enough. I recognize two kinds of delegation: Gopher Delegation and Delegation:</p>
+<h3>
+	Distinguishing</h3>
+<p>
+	Gopher delegation is the type of delegation that sounds like &#39;please go to this store, pick up these 3 items, come back and put them on the table in the cantina, arrange the plates, forks and glasses around the table, evenly distributed in the exact amount of people attending the lunch meeting&#39;. This type of delegation is in stark contrast to true delegation which sounds like &#39;Please make the necessary preparations for our lunch meeting at 12:00&#39;. The key thing to learn, is that <strong>gophers need gopher delegation</strong> and <strong>trusted employees/colleagues need regular delegation</strong>.</p>
+<p>
+	In the above example, the gopher given the first task would probably forget the knives - he was only asked to get forks and since the entire task had been nicely cut out into smaller tasks he felt no responsibility to go above and beyond, he simply follows orders. For gophers, this is what you want, fortunately there aren&#39;t too many of them.</p>
+<p>
+	The trusted employee might feel free to pick up more than the 3 items, might clean the table, or apply any number of improvements to your original plan (which he wasn&#39;t told) because he feels its his task and his responsebility to work out a great solution. For <a href="http://conj-labs.eu" target="_blank">Conj Labs</a> we work out a number of lab exercises in advance of the course. Imagine I was to ask <a href="http://twitter.com/cgrand" target="_blank">Christophe</a> to prepare such a lab. Would I get the best result by telling him exact scope of the exercise, where to inject explanatory slides, which functions to use, etc etc? Or would it be better to say <strong>&#39;Christophe, I would love a lab on DSLs can you try to come up with something?</strong>&#39; - Let me tell you, he has not yet failed to surprise me :)</p>
+<p>
+	In the past I have been bit by delegating important tasks to gophers without being clear enough, and Im sure I have choked trusted employees creativity and intelligence by being too specific - Both are enormous errors where delegations ends up being a pain instead of giving you some freedom with your time. But now for the practical stuff:</p>
+<p>
+	&nbsp;</p>
+<h1>
+	Emacs keys worth knowing:</h1>
+<p>
+	I promised to list some of my most used keyboard bindings, so I&#39;ve asked my fingers and here is the result. Since this is almost an inexhaustable topic, I&#39;ll keep it brief and open up the comments section :)</p>
+<h3>
+	Small helpers</h3>
+<p>
+	Zap-To-Char (M-z): Kills all characters up to and <em>including</em> the one you supply as an argument</p>
+<p>
+	Recenter (C-l): Try hitting it 3 times and see what happens each time (that&#39;s C-lower-case L)</p>
+<p>
+	Query-replace (M-%): Regex replace, (y to replace, n to skip, ! to replace all, works on regions as well)</p>
+<p>
+	Goto line (M-g g): Jumps to a specific line</p>
+<h3>
+	These three guys go together and I use them constantly for rearranging text:</h3>
+<p>
+	Kill-Line (C-k): Kills an entire line</p>
+<p>
+	Kill-Region (C-w): Kills a region (region: Selected area)</p>
+<p>
+	Kill-Ring-Save (M-w): Copies a region to the clipboard</p>
+<p>
+	Paste-Ring (C-y): Pastes whatevers in the kill-ring</p>
+<p>
+	Paste-again (M-y): Keeps replacing what you just pasted with the next item in the kill ring</p>
+<h3>
+	For repetitive tasks, these are a must</h3>
+<p>
+	record-macro-start (C-x (): Records all keystrokes until you stop recording</p>
+<p>
+	record-macro-end (C-x )): Stops recording</p>
+<p>
+	play-macro (C-x e): Plays the last recorded macro</p>
+<p>
+	play-macro-on-region (C-x C-k r): Play its only on the selected region</p>
+<p>
+	play-macro-n-times (C-u 10 C-x e): Plays the macro 10 times</p>
+<p>
+	save-macro-with-name (C-x C-k n): Give it a name, refer to it later</p>
+<p>
+	M-x insert-kbd-macro: Lets you save the Lisp code of your macro for use in future sessions</p>
+<h3>
+	Optimizations</h3>
+<p>
+	M-x paredit: Will disable paredit if you enabled it by accident</p>
 <p>
 	&nbsp;</p>
 <p>
 	&nbsp;</p>
+<h1>
+	Configs</h1>
 <p>
-	Fist paragraph</p>
+	I&#39;ve put my configs on <a href="http://github.com/LauJensen/Configs" target="_blank">Github</a> - I dont plan on updating them, so they are there now and can be used as inspiration.</p>
+<h3>
+	Emacs:</h3>
+<p>
+	Nothing too special here. There&#39;s my swank setup, which has a very customized classpath, this is the times where I want to fiddle or contribute to some project - Most of my development goes on after calling M-x swank-clojure-project. If someone is pinging me in #clojure I hit F12 which makes the channel fullscreen, and once Im done I hit F12 again and the original window configuration is restored completely. At the very bottom Ive added some repos to technomancys new version of ELPA, which I never finished testing (sorry).</p>
+<h3>
+	Awesome (rc.lua): The awesome config (rc.lua) is looted from anrxc (#archlinux)</h3>
+<p>
+	This setup will likely save you half a lifetime - Installing Awesome takes a few seconds but configuring your way out of the lua madness (indices start at 1) takes quite some time. Thankfully #archlinux is a good place to get help. There&#39;s nothing too specific about this setup, except for when you hit M-q then a small Emacs-Orgmode-Remember window pops up, which allows you to quickly take notes. This feature wont work unless you use (parts of) my emacs config and you need to change a few paths. Finally, your battery is most likely not named as mine, so to get battery stats in the top bar fix the string on line 50 in /awesome/vicious/bat.lua. The entire config goes into ~/.config/awesome. (yes I know its ridicously hacky, I love using Awesome, not configuring it)</p>
+<h3>
+	Wanderlust:</h3>
+<p>
+	There are several Email applications for Emacs - They all suck, Wanderlust sucks the least. I use Wanderlust sporadically for sending emails and also for reading emails - I do however always keep a thunderbird icon in the tray to alert me to new emails, as this is one of the (many?) bugs of Wanderlusts IMAP integration - It doesn&#39;t notify you of new emails. Word of caution: If you subscribe to the Wanderlust ML, you can only unsubscribe by sending an email from within Wanderlust - Not knowing this, cause a little pain and a lot of flame. When they get the bugs ironed out, I might switch 100% to a fetchmail/wanderlust combo but its not quite ready yet.</p>
+<p>
+	Note, that when you&#39;re composing an email, hit C-h to convert it to HTML using org-mode-htmlize.</p>
+<p>
+	You can find the files: <a href="http://github.com/LauJensen/Configs" target="_blank">here</a></p>
+<p>
+	&nbsp;</p>
+<h1>
+	Conclusion</h1>
+<p>
+	Its important to be productive - I see it as driving a car where there&#39;s no speedlimits, why not see how fast it can go? I hope I was able to inspire some of you to revisit your setup and to start asking the question <em><strong>&quot;How productive can we become?&quot;</strong></em>.</p>
+<p>
+	There&#39;s of course a final very definite way to be more productive and that is to use a screwdriver for screws instead of hammer, and to use Clojure for development of quality software. If you would like to learn more about Clojure and how to use it professionally, I&#39;ll recommend you to join us at the next installment of <a href="http://conj-labs.eu" target="_blank">Conj Labs</a> - This time in <strong>Frankfurt, Germany</strong>. Once again I&#39;m teaming up with the fantastic <a href="http://twitter.com/cgrand" target="_blank">Christophe Grand</a> (author of <strong>Enlive</strong> and <strong>Moustache</strong>) to provide 3 days of Clojure training - We hope to see you there. As a new thing, we have acquired the help of <a href="http://innoq.com" target="_blank">InnoQ</a> who are helping us in spreading the word, so we hope to see many Germans (as well as foreigners) there.</p>
