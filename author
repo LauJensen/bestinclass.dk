@@ -1,0 +1,7 @@
+<div style="background: url(&quot;/images/authorbg.png&quot;) no-repeat scroll left top transparent; width: 705px; height: 175px; padding: 10px;">
+  <a href="http://feeds.feedburner.com/bestinclass-the-blog" target="_blank" style="float:right; margin-top: 70px; margin-right: 60px;"><img src="/images/rss.png"></a>
+    <a href="http://twitter.com/laujensen" target="_blank" style="float:right; margin-top: 70px; margin-right: 60px;"><img src="/images/twitter.png"></a>
+  <h1>About the author:</h1>
+  <p style="width: 400px"><b>Lau Jensen</b> is the founder and owner of Best In Class a danish consultancy company which specializes in Clojure development. </p>
+  <p style="width: 400px; margin-top: 1px;"><b>Lau</b> is also one of the instructors of driving the <a href="http://www.conj-labs.eu">Conj Labs</a> initiative. If you would like to be notified once new blogposts are published, you can follow Lau on <a href="http://twitter.com/laujensen">Twitter.</a></p>
+</div>

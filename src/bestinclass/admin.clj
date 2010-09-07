@@ -2,7 +2,8 @@
   (:use [net.cgrand.enlive-html :exclude [flatten]]
 	net.cgrand.moustache
 	ring.util.response ring.middleware.file	ring.adapter.jetty
-	[clojure.contrib io shell]
+	[clojure.contrib shell]
+        [clojure.contrib [io :exclude [spit]]]
 	[bestinclass comments feeds templates])
   (:import [java.io File]
 	   [java.util Calendar Date]
@@ -89,9 +90,28 @@
     (append-to-post comment)
     (constantly (redirect "/admin"))))
 
+(defn raw?
+  [body]
+  (not
+   (-> (.split body "<!--more-->")
+       first
+       (.contains "</div>"))))
+
+(defn add-header
+  " Adds a box which puts space between the preface and the body "
+  [body]
+  (let [[preface text] (.split body "<!--more-->")]
+    (apply str
+           (concat (str "<div id=\"box\">" preface "</div>")
+                   "\n<!--more-->\n"
+                   text))))
+
 (defn save-draft [{body :body}]
   (let [content   (-> (read-body body) parse-args)]
-    (spit "draft" content)
+    (spit "draft"
+          (if (raw? content)
+            (add-header content)
+            content))
     (redirect "/editor")))
 
 (defn publish-post [{body :body}]
@@ -102,7 +122,7 @@
 		{(keyword (first item))
 		 (java.net.URLDecoder/decode (last item))}))
 	avatar    (str "/" avatar)
-	draft     (slurp "draft")
+	draft     (apply str (concat (slurp "draft") (slurp "author")))
 	filename  (-> title (.replaceAll " " "-") (.replaceAll "--" "-") .toLowerCase)
 	date      (.format (java.text.SimpleDateFormat. "yyyy-MM-dd hh:mm:ss") (java.util.Date.))
 	url       (format "/index.clj/%s/%s/%s.html"
@@ -227,7 +247,7 @@
 			(iterate inc 0)
 			(.split queue "\n")) [])]
     (content-type
-     (response (admin-page (slurp "draft")
+     (response (admin-page (apply str (slurp "draft") (slurp "author"))
 			   avatars
 			   comments
 			   (generate-barchart-url (sort-by first hits))
@@ -249,7 +269,7 @@
 (def wroutes
      (app
       (wrap-file "resources")
-      (wrap-reload '[bestinclass.templates])
+
       ["admin"]            render-admin-interface
       ["editor"]           render-editor
       ["dispose" id]       (kill-comment    id)
