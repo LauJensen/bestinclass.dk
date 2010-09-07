@@ -1,8 +1,10 @@
-<p>
-	Im very eager to return to blogging about Clojure, but right now I have a loose productivity end which I need to take care of. In this post you will get a few producitivity tips as well as my configs for Emacs, Awesome and Wanderlust.</p>
-<p>
-<!--more--></p>
-<h1>
+<div id="box">
+	<p>
+		Im very eager to return to blogging about Clojure, but right now I have a loose productivity end which I need to take care of. In this post you will get a few producitivity tips as well as my configs for Emacs, Awesome and Wanderlust.</p>
+	<p>
+		&nbsp;</p>
+</div>
+<!--more--><h1>
 	Preface</h1>
 <p style="text-align: center;">
 	&quot;<em>I know why you&#39;re here. I know what you&#39;ve been doing... why you hardly sleep, why you live alone, and why night after night, you sit by your computer. You&#39;re looking for, it I know because I was once looking for the same thing. And when I found it, I knew what I&#39;d been searching for. I was looking for an answer. It&#39;s the question that drives us. It&#39;s the question that brought you here. You know the question, just as I did.</em>&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --- <strong>The (sorta) Matrix</strong></p>
@@ -162,3 +164,6 @@
 	Its important to be productive - I see it as driving a car where there&#39;s no speedlimits, why not see how fast it can go? I hope I was able to inspire some of you to revisit your setup and to start asking the question <em><strong>&quot;How productive can we become?&quot;</strong></em>.</p>
 <p>
 	There&#39;s of course a final very definite way to be more productive and that is to use a screwdriver for screws instead of hammer, and to use Clojure for development of quality software. If you would like to learn more about Clojure and how to use it professionally, I&#39;ll recommend you to join us at the next installment of <a href="http://conj-labs.eu" target="_blank">Conj Labs</a> - This time in <strong>Frankfurt, Germany</strong>. Once again I&#39;m teaming up with the fantastic <a href="http://twitter.com/cgrand" target="_blank">Christophe Grand</a> (author of <strong>Enlive</strong> and <strong>Moustache</strong>) to provide 3 days of Clojure training - We hope to see you there. As a new thing, we have acquired the help of <a href="http://innoq.com" target="_blank">InnoQ</a> who are helping us in spreading the word, so we hope to see many Germans (as well as foreigners) there.</p>
+<p>
+	&nbsp;</p>
+

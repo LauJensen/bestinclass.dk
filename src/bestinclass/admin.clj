@@ -3,7 +3,7 @@
 	net.cgrand.moustache
 	ring.util.response ring.middleware.file	ring.adapter.jetty
 	[clojure.contrib shell]
-        [clojure.contrib [io :exclude [spit]]]
+        [clojure.contrib io]
 	[bestinclass comments feeds templates])
   (:import [java.io File]
 	   [java.util Calendar Date]
@@ -13,7 +13,7 @@
 
  					;:> GLOBALS
 
-(def server (doto (Thread. #(run-jetty #'wroutes {:port 8080 :host "127.0.0.1"})) .start))
+;(def server (doto (Thread. #(run-jetty #'wroutes {:port 8080 :host "127.0.0.1"})) .start))
 
 (defn static [tplate] (-> tplate response constantly))
 
@@ -284,4 +284,4 @@
 (def backup-agent (agent 0))
 (send-off backup-agent backup-comments)
 
-;(run-jetty wroutes {:port 8080 :host "127.0.0.1"})
+(run-jetty wroutes {:port 8080 :host "127.0.0.1"})
