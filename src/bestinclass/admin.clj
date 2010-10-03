@@ -1,9 +1,9 @@
 (ns bestinclass.admin
   (:use [net.cgrand.enlive-html :exclude [flatten]]
 	net.cgrand.moustache
-	ring.util.response ring.middleware.file	ring.adapter.jetty
+	ring.util.response ring.middleware.file	;ring.adapter.jetty
 	[clojure.contrib shell]
-        [clojure.contrib io]
+        [clojure.contrib.io :exclude [spit]]
 	[bestinclass comments feeds templates])
   (:import [java.io File]
 	   [java.util Calendar Date]
@@ -268,20 +268,21 @@
 
 (def wroutes
      (app
-      (wrap-file "resources")
+;      (wrap-file "resources")
+      ["bestinclass" &]
+      (app
+       ["admin"]            render-admin-interface
+       ["editor"]           render-editor
+       ["dispose" id]       (kill-comment    id)
+       ["approve" id & url] (approve-comment id url)
 
-      ["admin"]            render-admin-interface
-      ["editor"]           render-editor
-      ["dispose" id]       (kill-comment    id)
-      ["approve" id & url] (approve-comment id url)
+       ["cmt" & url]        {:get  (render-comment-form url)
+                             :post parse-comment}
 
-      ["cmt" & url]        {:get  (render-comment-form url)
-			    :post parse-comment}
-
-      ["recv"]             {:post save-draft}
-      ["publish"]          {:post publish-post}))
+       ["recv"]             {:post save-draft}
+       ["publish"]          {:post publish-post})))
 
 (def backup-agent (agent 0))
 (send-off backup-agent backup-comments)
 
-(run-jetty wroutes {:port 8080 :host "127.0.0.1"})
+;(run-jetty wroutes {:port 8080 :host "127.0.0.1"})
