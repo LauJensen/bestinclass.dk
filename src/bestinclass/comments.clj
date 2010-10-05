@@ -2,11 +2,12 @@
   (:use [net.cgrand.enlive-html :exclude [flatten]]
 	net.cgrand.moustache
 	clojure.contrib.io
-	[bestinclass email wordpress templates])
+	[bestinclass email wordpress shared])
   (:import [java.io File]
 	   [java.text SimpleDateFormat]))
 
 					;:> GLOBALS
+
 (def persister-tron (agent 0))
 (def comment-queue (ref []))
 (def captchas [{:id 0 :question "(+ (* 2 2) 6) = ?" :answer "10"}
@@ -25,8 +26,13 @@
   (doseq [comment (dosync
 		   (let [comments @comment-queue]
 		     (ref-set comment-queue [])
-		     comments))]
-    (append-spit "comment-queue" (with-out-str (prn comment))))
+		     comments))
+          :let [queue (in-tomcat "comment-queue")]]
+    (future (send-mail "lau@bestinclass.dk" "New comment" "Check it out"))
+    (try
+                                        ;     (append-spit (in-tomcat "comment-queue") (with-out-str (prn comment)))
+     (spit queue (str (slurp queue) comment)) ; Above line fails on Tomcat for some reason "stream already open"
+     (catch Exception e (.getMessage e))))
   (Thread/sleep 60000)
   (send-off *agent* backup-comments))
 
@@ -49,8 +55,6 @@
 		:captcha (format "Answered %s to question #%s (%s)" captcha cid question)
 		:date    (.toString date)
 		:comment comment})
-	(do
-	  (future (send-mail "lau@bestinclass.dk" "New comment" "Check it out"))
-	  {:body "OK"}))
+	  {:body "OK"})
        {:body "NOT OK"}))
    (catch Exception e {:body "NOT OK"})))
