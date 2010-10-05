@@ -4,7 +4,7 @@
 	ring.util.response ring.middleware.file	;ring.adapter.jetty
 	[clojure.contrib shell]
         [clojure.contrib.io :exclude [spit]]
-	[bestinclass comments feeds templates])
+	[bestinclass comments feeds templates shared])
   (:import [java.io File]
 	   [java.util Calendar Date]
 	   [java.text SimpleDateFormat]))
@@ -29,21 +29,21 @@
      500)))
 
 (defn kill-on-disk [id]
-  (let [queue    (slurp "comment-queue")
+  (let [queue    (slurp (in-tomcat "comment-queue"))
 	comments (if-not (empty? queue)
 		   (map #(assoc (read-string %2) :id (str %1)) (iterate inc 0) (.split queue "\n"))
 		   [])]
-    (spit "comment-queue" (with-out-str
+    (spit (in-tomcat "comment-queue") (with-out-str
 			    (doseq [comment comments]
 			      (when (not= id (:id comment))
 				(prn comment)))))))
 
 (defn load-from-disk [id]
-  (let [queue (-> (slurp "comment-queue") (.split "\n"))]
+  (let [queue (-> (slurp (in-tomcat "comment-queue")) (.split "\n"))]
     (nth (map read-string queue) (Integer/parseInt id))))
 
 (defn get-avatars []
-  (->> (file-seq (File. "resources/wp-content/uploads/avatars/"))
+  (->> (file-seq (File. (in-tomcat "resources/wp-content/uploads/avatars/")))
        (filter #(.isFile %))
        (map #(.getName %))))
 
@@ -62,7 +62,7 @@
       (.split "/")))
 
 (defn append-to-post [{:keys [url name date comment]}]
-  (let [url       (->> (strip-www url) (concat ["site"]) (interpose "/") (apply str))
+  (let [url       (in-tomcat (->> (strip-www url) (concat ["site"]) (interpose "/") (apply str)))
 	url2      (str url (hash url))
 	c-class   (if (= name "Lau") "comment-lau" "comment")]
     (->> ((template (-> url File. html-resource) [new-comment]
@@ -108,7 +108,7 @@
 
 (defn save-draft [{body :body}]
   (let [content   (-> (read-body body) parse-args)]
-    (spit "draft"
+    (spit (in-tomcat "draft")
           (if (raw? content)
             (add-header content)
             content))
@@ -122,14 +122,14 @@
 		{(keyword (first item))
 		 (java.net.URLDecoder/decode (last item))}))
 	avatar    (str "/" avatar)
-	draft     (apply str (concat (slurp "draft") (slurp "author")))
+	draft     (apply str (concat (slurp (in-tomcat "draft")) (slurp (in-tomcat "author"))))
 	filename  (-> title (.replaceAll " " "-") (.replaceAll "--" "-") .toLowerCase)
 	date      (.format (java.text.SimpleDateFormat. "yyyy-MM-dd hh:mm:ss") (java.util.Date.))
 	url       (format "/index.clj/%s/%s/%s.html"
 			  (.format (java.text.SimpleDateFormat. "yyyy") (java.util.Date.))
 			  (.format (java.text.SimpleDateFormat. "MM") (java.util.Date.))
 			  filename)]
-    (make-parents (File. (str "site" url)))
+    (make-parents (File. (str static-root  "site" url)))
     (->> (page (str "Best In Class: " title)
 	       ["/scripts/jquery.tools.min.js" "/scripts/menu.js" "/scripts/post.js"]
 	       ["/css/main.css" "/css/blog.css" "/css/comment-form.css"]
@@ -140,16 +140,16 @@
 		      :comments []
 		      :link     (str "http://www.bestinclass.dk/" url)}))
 	 (apply str)
-	 (spit (str "site" url)))
-    (->> ((template (File. "site/blog.html") [title link thumb excerpt]
+	 (spit (str static-root "site" url)))
+    (->> ((template (File. (in-tomcat "site/blog.html")) [title link thumb excerpt]
 		    [:ul.content] (prepend (select (teaser title link (str "/" thumb) excerpt)
 						   [:ul :> any-node])))
-	  title url avatar (-> (.split (slurp "draft") "<!--more-->") first))
+	  title url avatar (-> (.split (slurp (in-tomcat "draft")) "<!--more-->") first))
 	 (apply str)
-	 (spit "site/blog.html"))
-    (->> (generate-feed "site/index.clj/")
+	 (spit (in-tomcat "site/blog.html")))
+    (->> (generate-feed (in-tomcat "site/index.clj/"))
 	 (apply str)
-	 (spit "site/atom.xml"))
+	 (spit (in-tomcat "site/atom.xml")))
     (redirect "/blog.html")))
 
 (defn intersperse [c strng]
@@ -172,8 +172,8 @@
               (str (apply max vs))))))
 
 (defn read-history []
-  (if (.isFile (java.io.File. "stats"))
-    (-> "stats" slurp read-string)
+  (if (.isFile (java.io.File. (in-tomcat "stats")))
+    (-> (in-tomcat "stats") slurp read-string)
     {:referers [] :hits []}))
 
 (defn parse-log [filename]
@@ -216,38 +216,39 @@
    incremental counter. The log is then parsed and merged with the historical data
    in the file 'stats' and the result is returned"
   []
-  (if (.isFile (File. "access.log"))
+  (if (.isFile (File. (in-tomcat "access.log")))
     (let [{:keys [referers hits]} (read-history)
 	  archive-name (->> (iterate inc 1)
-			    (map #(File. (str "logs/access.log." %)))
+			    (map #(File. (str static-root "logs/access.log." %)))
 			    (remove #(.isFile %))
 			    first
 			    .getName
-			    (format "logs/%s"))
-	  result       (do (sh "mv" "access.log" archive-name)
-			   (sh "killall" "-USR1" "nginx")) ; Reopen logs, otherwise access.log wouldn't be used
+			    (format "%slogs/%s" static-root))
+	  result       (do (sh "mv" (str static-root "access.log") archive-name)
+			   (sh "sudo" "killall" "-USR1" "nginx"))
+                                        ; Reopen logs, otherwise access.log wouldn't be used
 	  log-entries  (parse-log archive-name)
 	  hit-stats    (into {} (for [day (sort-by :date (group-by :date (map serialdate log-entries)))]
 				  {(key day) (count (val day))}))
 	  ref-stats    (merge-referers log-entries referers)
 	  stats        {:referers ref-stats
 			:hits     (merge-with + hit-stats hits)}]
-      (spit "stats" (with-out-str (prn stats)))
+      (spit (str static-root "stats") (with-out-str (prn stats)))
       stats)
-    (read-string (slurp "stats"))))
+    (read-string (slurp (str static-root "stats")))))
 
 					;:> WEB UI
 
 (defn render-admin-interface [_]
   (let [{:keys [referers hits]} (compile-stats)
-	queue    (slurp "comment-queue")
+	queue    (slurp (in-tomcat "comment-queue"))
 	avatars  (get-avatars)
 	comments (if-not (empty? queue)
 		   (map #(assoc (read-string %2) :id %1)
 			(iterate inc 0)
 			(.split queue "\n")) [])]
     (content-type
-     (response (admin-page (apply str (slurp "draft") (slurp "author"))
+     (response (admin-page (apply str (slurp (in-tomcat "draft")) (slurp (in-tomcat "author")))
 			   avatars
 			   comments
 			   (generate-barchart-url (sort-by first hits))
@@ -259,7 +260,7 @@
    (response (page "Best In Class: New post"
 		   ["/ckeditor/ckeditor.js"]
 		   ["/css/main.css"]
-		   (editor (slurp "draft"))))
+		   (editor (slurp (in-tomcat "draft")))))
     "text/html; charset=UTF-8"))
 
 (defn render-comment-form [url]
@@ -268,7 +269,6 @@
 
 (def wroutes
      (app
-;      (wrap-file "resources")
       ["bestinclass" &]
       (app
        ["admin"]            render-admin-interface
