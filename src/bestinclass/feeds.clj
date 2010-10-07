@@ -17,8 +17,8 @@
 		    (filter #(and (.isFile %) (.endsWith (.getName %) ".html"))))
 	data   (for [post posts :let [path (.getPath post)
 				      res  (html-resource post)
-				      url  (str "http://www.bestinclass.dk"
-						(subs path (inc (.indexOf (subs path 1) "/"))))]]
+                                      url  (str "http://www.bestinclass.dk/"
+                                                (-> path (.split "/site/") last))]]
 		 (let [body     (->> (select res [:div#post :> any-node]) emit* (apply str))
 		       more-pos (.indexOf body "<!--more-->")
 		       main     (subs body (+ (count "<!--more-->") more-pos))
