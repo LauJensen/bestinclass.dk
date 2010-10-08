@@ -43,9 +43,10 @@
     (nth (map read-string queue) (Integer/parseInt id))))
 
 (defn get-avatars []
-  (->> (file-seq (File. (in-tomcat "resources/wp-content/uploads/avatars/")))
+  (->> (file-seq (File. (in-tomcat "site/wp-content/uploads/avatars/")))
        (filter #(.isFile %))
-       (map #(.getName %))))
+       (map #(.getName %))
+       sort ))
 
 					;:> LOGIC
 
