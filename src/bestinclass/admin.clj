@@ -268,6 +268,27 @@
   (static (comment-form (apply str (interpose "/" (rest url)))
 			(rand-nth bestinclass.comments/captchas))))
 
+ (defn ul-avatar
+  "Receives an avatar via POST form submission"
+  [r]
+  (try
+   (println :info "Receiving file")
+   (let [[_ filename] (re-find #"qqfile=(.*)" (-> r :query-string))
+         path     (str static-root "site/wp-content/uploads/avatars/"
+                       (-> filename
+                           (.replaceAll "%20" "")
+                           (.replaceAll "&" "")))
+         l        (println :info (str "path: " path))
+         dest     (File. path)]
+     (println :info "Making parents")
+     (make-parents   dest)
+     (println :info "Copying")
+     (copy (:body r) dest)
+     (println :info "Copy complete")
+     (response "{success:true}"))
+   (catch Exception e
+     (println :warn (.getMessage e)))))
+
 (def wroutes
      (app
       ["bestinclass" &]
@@ -280,10 +301,13 @@
        ["cmt" & url]        {:get  (render-comment-form url)
                              :post parse-comment}
 
+       ["ul"]               {:post ul-avatar}
        ["recv"]             {:post save-draft}
        ["publish"]          {:post publish-post})))
 
 (def backup-agent (agent 0))
 (send-off backup-agent backup-comments)
 
-;(run-jetty wroutes {:port 8080 :host "127.0.0.1"})
+#_(defn start-server []
+  (doto (Thread. #(run-jetty #'wroutes {:port 8080 :host "127.0.0.1"}))
+    .start))
