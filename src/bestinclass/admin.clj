@@ -19,6 +19,10 @@
 
 					;:> FS IO
 
+(defn comments-as-seq []
+  (let [queue (slurp (in-tomcat "comment-queue"))]
+    (map #(assoc %2 :id %1) (range) (read-string (str \[ queue \])))))
+
 (defn parse-args [a]
   (-> (.split a "=") last java.net.URLDecoder/decode))
 
@@ -29,25 +33,22 @@
      500)))
 
 (defn kill-on-disk [id]
-  (let [queue    (slurp (in-tomcat "comment-queue"))
-	comments (if-not (empty? queue)
-		   (map #(assoc (read-string %2) :id (str %1)) (iterate inc 0) (.split queue "\n"))
-		   [])]
-    (spit (in-tomcat "comment-queue") (with-out-str
-			    (doseq [comment comments]
-			      (when (not= id (:id comment))
-				(prn comment)))))))
+  (let [queue    (comments-as-seq)]
+    (spit (in-tomcat "comment-queue")
+          (with-out-str
+            (doseq [comment queue]
+              (when (not= (Integer. id) (:id comment))
+                (pr comment)))))))
 
 (defn load-from-disk [id]
-  (let [queue (-> (slurp (in-tomcat "comment-queue")) (.split "\n"))]
-    (nth (map read-string queue) (Integer/parseInt id))))
+  (let [queue (comments-as-seq)]
+    (nth queue (Integer/parseInt id))))
 
 (defn get-avatars []
   (->> (file-seq (File. (in-tomcat "site/wp-content/uploads/avatars/")))
        (filter #(.isFile %))
        (map #(.getName %))
        sort ))
-
 					;:> LOGIC
 
 (defn older-than? [days dt]
@@ -82,8 +83,8 @@
       {:body content})))
 
 (defn kill-comment [id]
-  (do (kill-on-disk id)
-      (constantly (redirect "/admin"))))
+  (kill-on-disk id)
+  (constantly (redirect "/admin")))
 
 (defn approve-comment [id url]
   (let [comment (load-from-disk id)] ; TODO: Eliminate race condition
@@ -242,16 +243,11 @@
 
 (defn render-admin-interface [_]
   (let [{:keys [referers hits]} (compile-stats)
-	queue    (slurp (in-tomcat "comment-queue"))
-	avatars  (get-avatars)
-	comments (if-not (empty? queue)
-		   (map #(assoc (read-string %2) :id %1)
-			(iterate inc 0)
-			(.split queue "\n")) [])]
+	avatars  (get-avatars)]
     (content-type
      (response (admin-page (apply str (slurp (in-tomcat "draft")) (slurp (in-tomcat "author")))
 			   avatars
-			   comments
+			   (comments-as-seq)
 			   (generate-barchart-url (sort-by first hits))
 			   (sort-by last #(compare %2 %1) referers)))
      "text/html; charset=UTF-8")))
