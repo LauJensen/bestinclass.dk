@@ -29,8 +29,8 @@
 		     comments))
           :let [queue (in-tomcat "comment-queue")]]
     (future (send-mail "lau@bestinclass.dk" "New comment"
-                       (format "Comment:\n\nFrom: %s (%s)\n-------------------------\n%s"
-                               (:name comment) (:email comment) (:comment comment))))
+                       (format "Comment:\n\nFrom: %s (%s)\n-------------------------\n%s-------------------------\n%s"
+                               (:name comment) (:email comment) (:comment comment) (:url comment))))
     (try
      ;     (append-spit (in-tomcat "comment-queue") (with-out-str (prn comment)))
      (spit queue (str (slurp queue) comment)) ; Above line fails on Tomcat for some reason "stream already open"
