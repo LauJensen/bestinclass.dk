@@ -89,7 +89,9 @@
       (recur n (str (subs strng 0 (dec midway)) "." (subs strng (inc midway)))))
     strng))
 
-(deftemplate admin-page "admin.html" [article avatars comments stats referers]
+(deftemplate admin-page "admin.html" [articles article avatars comments stats referers]
+  [:option.article] (clone-for [art articles]
+                               this-node (content art))
   [:div#article] (content
 		  (html-snippet
 		   (apply str

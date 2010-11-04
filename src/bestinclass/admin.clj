@@ -1,7 +1,9 @@
 (ns bestinclass.admin
   (:use [net.cgrand.enlive-html :exclude [flatten]]
 	net.cgrand.moustache
-	ring.util.response ring.middleware.file	;ring.adapter.jetty
+	ring.util.response
+        ;ring.adapter.jetty
+        [ring.middleware params file]
 	[clojure.contrib shell]
         [clojure.contrib.io :exclude [spit]]
 	[bestinclass comments feeds templates shared])
@@ -241,11 +243,19 @@
 
 					;:> WEB UI
 
+(defn get-articles []
+  (for [f (file-seq (java.io.File. (in-tomcat "site/index.clj/")))
+        :let   [fname (.getName f) abspath (.getAbsolutePath f)]
+        :when  (and (.isFile f)
+                    (= ".html" (subs fname (.lastIndexOf fname "."))))]
+    [fname abspath]))
+
 (defn render-admin-interface [_]
   (let [{:keys [referers hits]} (compile-stats)
 	avatars  (get-avatars)]
     (content-type
-     (response (admin-page (apply str (slurp (in-tomcat "draft")) (slurp (in-tomcat "author")))
+     (response (admin-page (map first (get-articles))
+                           (apply str (slurp (in-tomcat "draft")) (slurp (in-tomcat "author")))
 			   avatars
 			   (comments-as-seq)
 			   (generate-barchart-url (sort-by first hits))
@@ -285,6 +295,30 @@
    (catch Exception e
      (println :warn (.getMessage e)))))
 
+(defn find-article
+  [s]
+  (-> (filter #(.contains % s) (map last (get-articles)))
+      first))
+
+(defn fetch-article
+  [{params :query-params}]
+  (let [article (find-article (params "name"))
+        content (-> article java.io.File. html-resource
+                    (select [:div#post]) emit*)]
+    (content-type (response content) "text/html; charset=UTF-8")))
+
+(defn submit-article
+  [{params :form-params}]
+  (let [post    (params "content")
+        article (File. (find-article (params "name")))]
+    (->> ((template article [c] [:div#post]
+                    (-> (html-snippet c)
+                        (select [:div#post :> any-node])
+                        content)) post)
+         (apply str)
+         (spit article)))
+  (response "OK"))
+
 (def wroutes
      (app
       ["bestinclass" &]
@@ -293,6 +327,9 @@
        ["editor"]           render-editor
        ["dispose" id]       (kill-comment    id)
        ["approve" id & url] (approve-comment id url)
+
+       ["fetch"]            (wrap-params fetch-article)
+       ["submit"]           (wrap-params submit-article)
 
        ["cmt" & url]        {:get  (render-comment-form url)
                              :post parse-comment}

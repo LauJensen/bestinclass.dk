@@ -4,6 +4,7 @@
     <title>Best in Class: ADMIN</title>
     <script class="header" src="/scripts/jquery.tools.min.js"></script>
     <script class="header" src="/scripts/fileuploader.js"></script>
+    <script class="header" src="/ckeditor/ckeditor.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/main.css"></link>
     <link rel="stylesheet" type="text/css" href="/css/admin.css"></link>
     <link rel="stylesheet" type="text/css" href="/css/blog.css"></link>
@@ -18,6 +19,11 @@
 
     <div id="nav">
       <ul>
+	<li>
+	  <a class="pbtn" href="#1">
+	    Editor
+	  </a>
+	</li>
 	<li>
 	  <a class="pbtn" href="#1">
 	    Moderation
@@ -37,6 +43,51 @@
     </div>
 
     <div class="panel">
+      <div class="editor">
+        <div id="postheader"/>
+        <div id="post"> <!-- Not really a post, but this looks better :) -->
+	  <p><b>Article</b></p>
+	  <select id="artcombo" name="artcombo" onchange="javascript:fetcharticle();">
+	    <option>-- Pick one --</option>
+	    <option class="article"></option>
+	  </select>
+        </div>
+        <div id="postfooter"/>
+        <!-- CK EDITOR -->
+
+        <style type="text/css">
+          div.wrapper {
+          width: 90%px;
+          height: 650px;
+          margin: 30px auto;
+          }
+          form {
+          width: 90%px;
+          height: 750px;
+          }
+        </style>
+        <div class="wrapper">
+            <textarea class="ckeditor" style="border: 0;" cols="80" id="editor" name="editor" rows="80"
+		      accept-charset="UTF-8">
+            </textarea>
+            <div style="width: 100%; text-align: right;">
+	      <input type="button" value="Update" id="submitarticle" onclick="javascript:submit();"/>
+            </div>
+        </div>
+        <script type="text/javascript">
+	  //<![CDATA[
+
+				CKEDITOR.replace( 'editor_kama',
+					{
+						skin : 'kama'
+					});
+
+			//]]>
+        </script>
+
+
+        <!-- CK EDITOR -->
+      </div>
       <div class="moderation">
 	<div class="comment-wrap">
 	  <div class="comment" style="background: transparent;">
@@ -117,6 +168,32 @@
           var newsrc = '/wp-content/uploads/avatars/' + $('#avatar').val();
           $("#thumb").attr('src', newsrc);
       }
+
+      function fetcharticle () {
+          var article = $('#artcombo').val();
+
+          $.ajax({url:  '/fetch',
+                  type: 'GET',
+                  data: {name: article},
+                  success: function(data) {
+                      CKEDITOR.instances.editor.loadSnapshot(data);
+                  }
+                 });
+      }
+
+      function submit() {
+          var content = CKEDITOR.instances.editor.getSnapshot();
+          var name    = $('#artcombo').val();
+
+          $.ajax({url:  '/submit',
+                  type: 'POST',
+                  data: {content: content, name: name},
+                  success: function (data) {
+                      alert("posted: " + data);
+                  }
+                 });
+      }
+
 
       var uploader = new qq.FileUploader({
           element: document.getElementById('ulbtn'),
