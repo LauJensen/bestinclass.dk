@@ -21,29 +21,68 @@
       <ul>
 	<li>
 	  <a class="pbtn" href="#1">
-	    Editor
-	  </a>
-	</li>
-	<li>
-	  <a class="pbtn" href="#1">
-	    Moderation
+	    Stats
 	  </a>
 	</li>
 	<li>
 	  <a class="pbtn" href="#2">
-	    Publishing
+	    Moderation
 	  </a>
 	</li>
 	<li>
 	  <a class="pbtn" href="#3">
-	    Stats
+	    Editor
+	  </a>
+	</li>
+	<li>
+	  <a class="pbtn" href="#4">
+	    Publishing
 	  </a>
 	</li>
       </ul>
     </div>
 
     <div class="panel">
-      <div class="editor">
+
+      <!-- PANE 1 -->
+      <div class="stats" style="display: none;">
+	<h1>Visitor stats</h1>
+	<div style="width: 100%; text-align: center; margin-top: 20px; margin-bottom: 20px;">
+	  <img id="chart"/>
+	</div>
+	<h1>Referers</h1>
+	<div id="referer">
+	  <table style="width: 90%; border: 0;">
+	    <tr class="refrow">
+	      <td class="ref"><a target="_new"/></td>
+	      <td class="dt"></td>
+	    </tr>
+	  </table>
+	</div>
+      </div>
+
+      <!-- PANE 2 -->
+
+      <div class="moderation" style="display: none">
+	<div class="comment-wrap">
+	  <div class="comment" style="background: transparent;">
+	    <div class="author"></div>
+	    <div class="date"></div>
+	    <div class="message"><pre></pre></div>
+	    <a id="approve">
+	      <img src="/images/approve.png"/>
+	    </a>
+	    <a id="dispose">
+	      <img src="/images/dispose.png"/>
+	    </a>
+	    <div class="url"/>
+	  </div>
+	</div>
+      </div>
+
+      <!-- PANE 3 -->
+
+      <div class="editor" style="display: none">
         <div id="postheader"/>
         <div id="post"> <!-- Not really a post, but this looks better :) -->
 	  <p><b>Article</b></p>
@@ -88,22 +127,9 @@
 
         <!-- CK EDITOR -->
       </div>
-      <div class="moderation">
-	<div class="comment-wrap">
-	  <div class="comment" style="background: transparent;">
-	    <div class="author"></div>
-	    <div class="date"></div>
-	    <div class="message"><pre></pre></div>
-	    <a id="approve">
-	      <img src="/images/approve.png"/>
-	    </a>
-	    <a id="dispose">
-	      <img src="/images/dispose.png"/>
-	    </a>
-	    <div class="url"/>
-	  </div>
-	</div>
-      </div>
+
+      <!-- PANE 4 -->
+
       <div class="publish" style="display: none;">
 	<form action="/publish" method="POST">
           <div id="postheader"/>
@@ -137,21 +163,6 @@
           <div id="postfooter"/>
 	  <div id="article" style=""/>
 	</form>
-      </div>
-      <div class="stats" style="display: none;">
-	<h1>Visitor stats</h1>
-	<div style="width: 100%; text-align: center; margin-top: 20px; margin-bottom: 20px;">
-	  <img id="chart"/>
-	</div>
-	<h1>Referers</h1>
-	<div id="referer">
-	  <table style="width: 90%; border: 0;">
-	    <tr class="refrow">
-	      <td class="ref"><a target="_new"/></td>
-	      <td class="dt"></td>
-	    </tr>
-	  </table>
-	</div>
       </div>
     </div>
 
