@@ -1,7 +1,7 @@
 (ns bestinclass.comments
   (:use [net.cgrand.enlive-html :exclude [flatten]]
 	net.cgrand.moustache
-	clojure.contrib.io
+	[clojure.contrib io logging]
 	[bestinclass email wordpress shared])
   (:import [java.io File]
 	   [java.text SimpleDateFormat]))
@@ -23,18 +23,23 @@
 					;:> BACKGROUND JOBS
 
 (defn backup-comments [a]
-  (doseq [comment (dosync
-		   (let [comments @comment-queue]
-		     (ref-set comment-queue [])
-		     comments))
-          :let [queue (in-tomcat "comment-queue")]]
+  (doseq [item (dosync
+                (let [comments @comment-queue]
+                  (ref-set comment-queue [])
+                  comments))
+          :let [queue (in-tomcat "comment-queue")
+                {:keys [name email comment url]} item]]
     (future (send-mail "lau@bestinclass.dk" "New comment"
-                       (format "Comment:\n\nFrom: %s (%s)\n-------------------------\n%s-------------------------\n%s"
-                               (:name comment) (:email comment) (:comment comment) (:url comment))))
+                       (format (str "Comment:\n\n"
+                                    "From: %s (%s)\n"
+                                    "-------------------------\n"
+                                    "%s"
+                                    "-------------------------\n%s")
+                               name email comment url)))
     (try
-     ;     (append-spit (in-tomcat "comment-queue") (with-out-str (prn comment)))
-     (spit queue (str (slurp queue) comment)) ; Above line fails on Tomcat for some reason "stream already open"
-     (catch Exception e (.getMessage e))))
+     (spit queue (str (slurp queue) item)) ; append-spit doesnt work on Tomcat
+     (catch Exception e
+       (println "Failed to backup/email comments: " (.getMessage e)))))
   (Thread/sleep 60000)
   (send-off *agent* backup-comments))
 
@@ -42,9 +47,10 @@
 
 (defn receive-comment [params]
   (try
-   (let [{:keys [url name email captcha cid comment]}
-	 (->> (.split (java.net.URLDecoder/decode params) "&")
-	      (map #(let [[k v] (.split % "=")] {(keyword k) v}))
+   (let [{:keys [url name email captcha cid comment] :as c}
+	 (->> (.split params "&")
+	      (map #(let [[k v] (.split % "=")] {(keyword (java.net.URLDecoder/decode k))
+                                                 (java.net.URLDecoder/decode v)}))
 	      (into {}))
 	 date   (.format (SimpleDateFormat. "yyyy-MM-dd hh:mm:ss") (java.util.Date.))
 	 {:keys [answer question]} (nth captchas (Integer/parseInt cid))]
@@ -59,4 +65,6 @@
 		:comment comment})
 	  {:body "OK"})
        {:body "NOT OK"}))
-   (catch Exception e {:body "NOT OK"})))
+   (catch Exception e
+     (log :warn (.getMessage e))
+     {:body "NOT OK"})))
