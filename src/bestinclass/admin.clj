@@ -4,7 +4,7 @@
 	ring.util.response
         ;ring.adapter.jetty
         [ring.middleware params file]
-	[clojure.contrib shell]
+	[clojure.contrib shell logging]
         [clojure.contrib.io :exclude [spit]]
 	[bestinclass comments feeds templates shared])
   (:import [java.io File]
@@ -254,7 +254,7 @@
   (let [{:keys [referers hits]} (compile-stats)
 	avatars  (get-avatars)]
     (content-type
-     (response (admin-page (map first (get-articles))
+     (response (admin-page (sort (map first (get-articles)))
                            (apply str (slurp (in-tomcat "draft")) (slurp (in-tomcat "author")))
 			   avatars
 			   (comments-as-seq)
