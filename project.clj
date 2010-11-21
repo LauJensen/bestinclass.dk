@@ -9,7 +9,12 @@
 		     [enlive                      "1.0.0-SNAPSHOT"]
 		     [net.cgrand/moustache        "1.0.0-SNAPSHOT"]
 		     [ring/ring-jetty-adapter     "0.2.0"]
-		     [javax.mail/mail "1.4.2"]]
-  :dev-dependencies [[leiningen/lein-swank        "1.2.0-SNAPSHOT"]]
+                     [log4j                       "1.2.15"
+                      :exclusions [javax.mail/mail
+                                   javax.jms/jms
+                                   com.sun.jdmk/jmxtools
+                                   com.sun.jmx/jmxri]]
+		     [javax.mail/mail             "1.4.2"]]
+  :dev-dependencies [[swank-clojure               "1.3.0-SNAPSHOT"]]
   :jar-files        [["resources" ""]]
   :war-files        [["resources" ""]])
